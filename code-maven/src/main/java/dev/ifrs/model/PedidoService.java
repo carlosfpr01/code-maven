@@ -1,9 +1,8 @@
-package dev.ifrs;
+package dev.ifrs.model;
 
 
 public class PedidoService {
-
-    public synchronized boolean ProcessaOuNao(Pedido p, int t){
+    public synchronized boolean rocessaOuNao(Pedido p, int t){
         if (p == null) return false;
         boolean ok = false;
 
