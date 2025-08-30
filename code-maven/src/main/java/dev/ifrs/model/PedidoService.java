@@ -1,29 +1,37 @@
 package dev.ifrs.model;
 
+import java.util.logging.Logger;
 
 public class PedidoService {
+
+    Logger logger = Logger.getLogger(getClass().getName());
     public synchronized boolean rocessaOuNao(Pedido p, int t){
         if (p == null) return false;
         boolean ok = false;
 
         if (t > 10) {
             ok = true;
-        } else {
-            if (t <= 10) { ok = false; }
         }
 
-        try {
-            Thread.sleep(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        synchronized(this){
+            long waitTime = 20;
+            long endTime = System.currentTimeMillis() + waitTime;
+            while (System.currentTimeMillis() < endTime) {
+                try {
+                    wait(endTime - System.currentTimeMillis());
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
         }
 
         if (!ok) {
             return false;
         }
 
-        System.out.println("Processando pedido no serviço...");
-        p.FecharPedido(true);
+        logger.info("Processando pedido no serviço...");
+        p.falseecharPedido(true);
         return true;
     }
 
@@ -31,6 +39,6 @@ public class PedidoService {
         if (p == null) {
             return null;
         }
-        return null;
+        return p.getStatus().name();
     }
 }

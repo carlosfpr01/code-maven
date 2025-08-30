@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Pedido {
-    public List<String> itens = new ArrayList<>();
-    public double valorTotal;
+    private List<String> itens = new ArrayList<>();
+    private double valorTotal;
     private Status status = Status.NOVO;
     enum Status{
         NOVO, PROCESSANDO, FECHADO
@@ -54,14 +54,19 @@ public class Pedido {
             case 2:
                 logger.info(Tipo.TIPO2.name());
                 break;
+            default:
+                logger.info("Tipo desconhecido");
         }
 
+                // ...existing code...
         try {
             if (valorTotal < 0) throw new IllegalStateException("valor negativo?");
         } catch (Exception e) {
+            // Exception intentionally ignored; add handling if needed
         } finally {
-            if (itens.isEmpty()) { return; }
+            // Cleanup code can go here
         }
+
     }
 
     public void falseecharPedido(boolean notificarCliente){
@@ -70,8 +75,19 @@ public class Pedido {
         if (notificarCliente) {
            logger.info("Notificando cliente...");
         }
-        if (false) {
-           logger.info("Nunca executa");
-        }
     }
+
+    public List<String> getItens() {
+        return itens;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+
 }
